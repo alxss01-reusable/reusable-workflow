@@ -28,6 +28,11 @@ jobs:
       - name: Maven Build
         run: mvn -B package --file pom.xml
 
-      - name: Print variables
+      - name: Sonar
         run: |
-          echo ${{ steps.variables.outputs.artifactId }}
+          mvn sonar:sonar \
+              -Dsonar.projectName=${{ steps.variables.outputs.artifactId }} \
+              -Dsonar.projectKey=${{ steps.variables.outputs.groupId }} \
+              -Dsonar.projectVersion=${{ steps.variables.outputs.appVersion }} \
+              -Dsonar.host.url=${{ vars.SONAR_URL }} \
+              -Dsonar.login=${{ secrets.SONAR_TOKEN }}
