@@ -6,6 +6,13 @@ on:
       name:
         required: false
         type: string
+    outputs:
+      artifactId:
+        value: ${{ jobs.build.outputs.artifactId }}
+      groupId:
+        value: ${{ jobs.build.outputs.groupId }}
+      appVersion:
+        value: ${{ jobs.build.outputs.appVersion }}
 
 jobs:
   build:
@@ -15,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: App Variables
+        id: variables
         uses: alxss01-actions/app-variables@main
 
       - name: SetUp Java
@@ -26,3 +34,7 @@ jobs:
 
       - name: Maven Build
         run: mvn -B package --file pom.xml
+
+      - name: Print variables
+        run: |
+          echo "$artifactId"
