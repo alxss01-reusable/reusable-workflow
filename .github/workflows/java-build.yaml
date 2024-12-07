@@ -34,5 +34,6 @@ jobs:
               -Dsonar.projectName=${{ steps.variables.outputs.artifactId }} \
               -Dsonar.projectKey=${{ steps.variables.outputs.groupId }} \
               -Dsonar.projectVersion=${{ steps.variables.outputs.appVersion }} \
+              -Dsonar.organization=${{ vars.SONAR_CLOUD_ORGANIZATION }}
               -Dsonar.host.url=${{ vars.SONAR_URL }} \
               -Dsonar.login=${{ secrets.SONAR_TOKEN }}
