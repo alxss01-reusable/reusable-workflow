@@ -14,6 +14,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: App Variables
+        uses: alxss01-actions/app-variables@main
+
       - name: SetUp Java
         uses: actions/setup-java@v4
         with:
