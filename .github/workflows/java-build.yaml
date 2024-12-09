@@ -28,9 +28,9 @@ jobs:
       - name: Maven Build
         run: mvn -B package --file pom.xml
 
-      - name: SonarCloud scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ steps.variables.outputs.artifactId }}
-          SONAR_ORGANIZATION: ${{ vars.SONAR_CLOUD_ORGANIZATION }}
+      - name: SonarCloud Scan
+        uses: alxss01-actions/sonar-cloud@main
+        with:
+          token: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          projectKey: ${{ steps.variables.outputs.artifactId }}
+          organization: ${{ vars.SONAR_CLOUD_ORGANIZATION }}
