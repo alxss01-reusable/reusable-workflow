@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -31,6 +33,6 @@ jobs:
       - name: SonarCloud Scan
         uses: alxss01-actions/sonar-cloud@main
         with:
-          token: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          token: $SONAR_CLOUD_TOKEN
           projectKey: ${{ steps.variables.outputs.artifactId }}
           organization: ${{ vars.SONAR_CLOUD_ORGANIZATION }}
