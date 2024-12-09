@@ -10,8 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -31,8 +29,12 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: SonarCloud Scan
-        uses: alxss01-actions/sonar-cloud@main
-        with:
-          token: $SONAR_CLOUD_TOKEN
-          projectKey: ${{ steps.variables.outputs.artifactId }}
-          organization: ${{ vars.SONAR_CLOUD_ORGANIZATION }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          echo -e "Project Key: ${{ steps.variables.outputs.artifactId }}\n"
+          echo -e "Organization: ${{ vars.SONAR_CLOUD_ORGANIZATION }}\n"
+          mvn sonar:sonar \
+          -Dsonar.projectKey=${{ steps.variables.outputs.artifactId }} \
+          -Dsonar.organization=${{ vars.SONAR_CLOUD_ORGANIZATION }} \
+          -Dsonar.host.url=https://sonarcloud.io
