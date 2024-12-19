@@ -45,6 +45,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Sonar Scan
+        id: sonar-scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         uses: alxss01-actions/sonar-scan@main
@@ -54,3 +55,7 @@ jobs:
           appVersion: ${{ steps.variables.outputs.appVersion }}
           url: ${{ vars.SONAR_LOCAL_URL }}
           token: $SONAR_TOKEN
+
+      - name: Print Saída Sonar Scan Test
+        run: |
+          echo "${{ steps.sonar-scan.outputs.time }}"
