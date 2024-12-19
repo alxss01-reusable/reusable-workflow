@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LOCAL }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -32,9 +32,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          echo -e "Project Key: ${{ steps.variables.outputs.artifactId }}\n"
-          echo -e "Organization: ${{ vars.SONAR_CLOUD_ORGANIZATION }}\n"
-          mvn sonar:sonar \
-          -Dsonar.projectKey=${{ steps.variables.outputs.artifactId }} \
-          -Dsonar.organization=${{ vars.SONAR_CLOUD_ORGANIZATION }} \
-          -Dsonar.host.url=https://sonarcloud.io
+          mvn sonar:sonar -Dsonar.projectName=${{ steps.variables.outputs.artifactId }} \
+          -Dsonar.projectKey=${{ steps.variables.outputs.artifactId }}:${{ steps.variables.outputs.groupId }} \
+          -Dsonar.projectVersion=${{ steps.variables.outputs.appVersion }} \
+          -Dsonar.host.url=${{ vars.SONAR_LOCAL_URL }} \
+          -Dsonar.login=$SONAR_TOKEN
