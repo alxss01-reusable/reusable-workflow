@@ -28,7 +28,7 @@ jobs:
       - name: Maven Build
         run: mvn -B package --file pom.xml
 
-      - name: SonarCloud Scan
+      - name: Sonar Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         uses: alxss01-actions/sonar-scan@main
