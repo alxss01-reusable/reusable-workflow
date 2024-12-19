@@ -31,9 +31,10 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn sonar:sonar -Dsonar.projectName=${{ steps.variables.outputs.artifactId }} \
-          -Dsonar.projectKey=${{ steps.variables.outputs.artifactId }}:${{ steps.variables.outputs.groupId }} \
-          -Dsonar.projectVersion=${{ steps.variables.outputs.appVersion }} \
-          -Dsonar.host.url=${{ vars.SONAR_LOCAL_URL }} \
-          -Dsonar.login=$SONAR_TOKEN
+        uses: alxss01-actions/sonar-scan@main
+        with:
+          projectName: ${{ steps.variables.outputs.artifactId }}
+          projectKey: "${{ steps.variables.outputs.artifactId }}:${{ steps.variables.outputs.groupId }}"
+          appVersion: ${{ steps.variables.outputs.appVersion }}
+          url: ${{ vars.SONAR_LOCAL_URL }}
+          token: $SONAR_TOKEN
