@@ -18,7 +18,23 @@ jobs:
         id: variables
         uses: alxss01-actions/app-variables@main
 
+      - name: Valida Java e Maven Instalados
+        run: |
+          javaVersion=$(java --version)
+          mavenVersion=$(mvn --version)
+
+          if [[ -z $javaVersion ]]; then
+            echo -e "O Java não está instalado...\n"
+            installJavaMaven="true" >> $GITHUB_ENV
+          else
+            echo -e "JAVA INSTALADO!\n"
+            echo -e "JAVA VERSION: $javaVersion\n"
+            echo -e "MAVEN VERSION: $mavenVersion\n"
+            installJavaMaven="false" >> $GITHUB_ENV
+          fi
+
       - name: SetUp Java
+        if: ${{ env.installJavaMaven == 'true' }}
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
